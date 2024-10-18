@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Geolocation Example</title>
+  <style>
+    /* Add some basic styling to our button and result */
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+    #result {
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <button id="get-location">Get Location</button>
+  <p id="result"></p>
+  <script>
+    // Get the button and result elements
+const button = document.getElementById('get-location');
+const result = document.getElementById('result');
+
+// Add an event listener to the button
+button.addEventListener('click', () => {
+  // Request the user's location
+  navigator.geolocation.getCurrentPosition((position) => {
+    // Display the result
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    result.textContent = `Your location is: ${latitude}, ${longitude}`;
+  }, (error) => {
+    // Handle any errors
+    result.textContent = `Error: ${error.message}`;
+  });
+});
+  </script>
+</body>
+</html>

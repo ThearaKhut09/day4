@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline Page with Theme Selector</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .theme-options {
+      margin-bottom: 20px;
+    }
+    button {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Offline Theme Selector</h1>
+  <p>Select a background color for the page, and it will be saved as your preference. You can access this page offline as well.</p>
+
+  <div class="theme-options">
+    <button class="theme-btn" data-color="lightblue">Light Blue</button>
+    <button class="theme-btn" data-color="lightgreen">Light Green</button>
+    <button class="theme-btn" data-color="lightcoral">Light Coral</button>
+  </div>
+
+  <script>
+    // Load saved theme from localStorage if available
+    const savedColor = localStorage.getItem('themeColor');
+    if (savedColor) {
+      document.body.style.backgroundColor = savedColor;
+    }
+
+    // Add event listeners to theme buttons
+    const buttons = document.querySelectorAll('.theme-btn');
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        const selectedColor = button.getAttribute('data-color');
+        document.body.style.backgroundColor = selectedColor;
+
+        // Save the selected color to localStorage
+        localStorage.setItem('themeColor', selectedColor);
+      });
+    });
+
+    // Register the service worker for offline use
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(function(registration) {
+          console.log('Service worker registered with scope:', registration.scope);
+        }).catch(function(error) {
+          console.log('Service worker registration failed:', error);
+        });
+    }
+  </script>
+</body>
+</html>
